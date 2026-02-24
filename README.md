@@ -67,9 +67,8 @@ apiVersion: apps/v1
 kind: ConfigMap
 metadata:
   name: gatewaycfgz
-  namespace: green
   annotations:
-    app.kubernetes.io/instance: gatewaycfgz
+    app.kubernetes.io/instance: kiagateway
     app.kubernetes.io/version: 0.0.1
 data:
   servers.toml: |
@@ -96,7 +95,7 @@ spec:
         app.kubernetes.io/name: kiagateway
     spec:
       containers:
-      - name: kiagatewpodman volume mount a fileay
+      - name: kiagateway
         image: "carefuldata/kiagateway:latest"
         ports:
         - name: tls-passthrough
@@ -125,6 +124,12 @@ COPY ./kiagateway /kiagateway
 EXPOSE 80-5000
 CMD ["/kiagateway"]
 ```
+
+Of course in Kubernetes you could just use Kubernetes Gateway or Ingress, and in many cases you would just do that.
+
+Most uses of kiagateway are for providing control over the domain routing, such as to avoid relying on Kubernetes or Traefik for the same functionality.
+
+Kiagateway especially shines in resource constrained environments, but can handle heavy traffic better than most services.
 
 ## So, what about HA of kiagateway itself?
 
