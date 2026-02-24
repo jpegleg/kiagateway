@@ -19,8 +19,7 @@ fn extract_host(headers: &[u8]) -> Option<String> {
     let text = std::str::from_utf8(headers).ok()?;
     for line in text.split("\r\n") {
         if line.to_lowercase().starts_with("host:") {
-            let val = line[5..].trim(); // skip "Host:"
-            // Strip optional port if it looks numeric.
+            let val = line[5..].trim();
             if let Some(pos) = val.rfind(':') {
                 let maybe_port = &val[pos + 1..];
                 if maybe_port.parse::<u16>().is_ok() {
@@ -81,7 +80,9 @@ fn extract_sni(data: &[u8]) -> Option<String> {
     if data.len() < 5 || data[0] != 0x16 {
         return None;
     }
+    
     let record_len = ((data[3] as usize) << 8) | (data[4] as usize);
+    
     if data.len() < 5 + record_len {
         return None;
     }
@@ -187,7 +188,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let config_http = config.clone();
 
     tokio::spawn(async move {
-
         loop {
             match http.accept().await {
                 Ok((socket, addr)) => {
@@ -200,8 +200,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
                         }
                     });
                 }
-
-
                 Err(e) => {
                     let txid = Uuid::new_v4().to_string();
                     let ts = chrono::DateTime::<Utc>::from(SystemTime::now()).to_rfc3339_opts(SecondsFormat::Millis, true);
