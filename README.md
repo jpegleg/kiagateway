@@ -22,8 +22,10 @@ Example `servers.toml` configuration file:
 "example.com" = "127.0.0.1:8001"
 "example.org" = "127.0.0.1:8002"
 "something.example.localnet = "192.168.1.19:1414"
-"other.things.stuff.localdomain" = "192.168.1.105:443"
+"other.things.stuff.localdomain" = "something.localdomain:443"
 ```
+_Note how a domain name can be used instead of an IP, but a port is still required._
+
 Then those IPs and ports would have (kiaproxy or whatever HAProxy) listeners that provide failover for the applications:
 
 ```
