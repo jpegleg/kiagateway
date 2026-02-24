@@ -56,7 +56,7 @@ async fn handle_http(mut client: TcpStream, config: Arc<Config>) -> Result<(), B
         }
     };
 
-    let _addr = match config.backends.get(&host) {
+    let backend_addr = match config.backends.get(&host) {
         Some(addr) => addr.clone(),
         None => {
             client.write_all(b"HTTP/1.1 502 Bad Gateway\r\n\r\n").await?;
