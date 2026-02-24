@@ -10,7 +10,7 @@ use uuid::Uuid;
 
 #[derive(Debug, Deserialize)]
 struct Config {
-    backend: HashMap<String, String>,
+    backends: HashMap<String, String>,
 }
 
 /// Try to find the `Host:` header in the HTTP request headers.
@@ -33,7 +33,7 @@ fn extract_host(headers: &[u8]) -> Option<String> {
 }
 
 /// Handle HTTP connections by inspecting the Host header
-/// and passing the TCP stream to the configured backend.
+/// and passing the TCP stream to the configured backends.
 async fn handle_http(mut client: TcpStream, config: Arc<Config>) -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let mut header_buf = Vec::new();
     let mut tmp = [0u8; 1024];
@@ -56,7 +56,7 @@ async fn handle_http(mut client: TcpStream, config: Arc<Config>) -> Result<(), B
         }
     };
 
-    let backend_addr = match config.backend.get(&host) {
+    let _addr = match config.backends.get(&host) {
         Some(addr) => addr.clone(),
         None => {
             client.write_all(b"HTTP/1.1 502 Bad Gateway\r\n\r\n").await?;
@@ -158,7 +158,7 @@ async fn handle_https(mut client: TcpStream, config: Arc<Config>) -> Result<(), 
         }
     };
 
-    let backend_addr = match config.backend.get(&sni) {
+    let backend_addr = match config.backends.get(&sni) {
         Some(addr) => addr.clone(),
         None => {
             return Ok(());
