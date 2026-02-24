@@ -178,7 +178,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     let srversstr = std::fs::read_to_string(&config_path)?;
     let config: Config = toml::from_str(&srversstr)?;
     let config = Arc::new(config);
-    let printcfg = srversstr.replace("\n", "");
+    let printcfg = srversstr.replace("\n", " ");
     let ts = chrono::DateTime::<Utc>::from(SystemTime::now()).to_rfc3339_opts(SecondsFormat::Millis, true);
 
     println!("{ts} <-> kiagateway >>> service starting: HTTP (host header inspection) on port 80, HTTPS (passthrough inspection) on port 443");
