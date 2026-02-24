@@ -15,6 +15,25 @@ that SNI value (example.com).
 
 The backends may likely be load balancer virtual IPs. Also see [kiaproxy](https://github.com/jpegleg/kiaproxy) for an example backend to use.
 
+Example `servers.toml` configuration file:
+
+```
+[backends]
+"example.com" = "127.0.0.1:8001"
+"example.org" = "127.0.0.1:8002"
+"something.example.localnet = "192.168.1.19:1414"
+"other.things.stuff.localdomain" = "192.168.1.105:443"
+```
+Then those IPs and ports would have (kiaproxy or whatever HAProxy) listeners that provide failover for the applications:
+
+```
+export LISTENER=8002
+export SERVERS=192.168.1.112:3000,192.168.1.113:3000
+```
+_kiaproxy exports environment variables for the backends while kiagateway has a TOML config_
+
+Kiagateway routes domains to (load balancers or proxies such as kiaproxy) which handle failover of applications.
+
 The architecture of kiagateway and kiaproxy can be used to support effective and high performance distributed systems networking, without the need
 for anything fancy. They are simple, light on system resource use, few dependencies, low cost, easy to understand, easy to build with, reliable, fast, and secure!
 
@@ -74,7 +93,7 @@ data:
   servers.toml: |
 [backends]
 "example.com" = "127.0.0.1:8001"
-"example.org = "127.0.0.1:8002"
+"example.org" = "127.0.0.1:8002"
 ...
 ---
 apiVersion: apps/v1
