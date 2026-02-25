@@ -163,7 +163,7 @@ Kiagateway is very simple and purpose built, so feature expansions are not likel
 The following are _not_ features of kiagateway:
 
 - UDP
-- having more than one backend (use kiaproxy or another load balancer as the backend)
+- load balancing backends for a domain (use kiaproxy or another load balancer as the backend)
 - TLS termination
 - wasm32-unknown-unknown compile target
 
