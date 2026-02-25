@@ -207,13 +207,19 @@ struct Config {
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
 
     let config_path = std::env::args().nth(1).unwrap_or_else(|| "servers.toml".to_string());
-    let srversstr = std::fs::read_to_string(&config_path)?;
+    let srversstr = match std::fs::read_to_string(&config_path) {
+        Ok(s) => s,
+        Err(e) => {
+            println!("Unable to open config {} due to error: {e}", &config_path);
+            std::process::exit(1);
+        }
+    };
     let config: Config = toml::from_str(&srversstr)?;
     let config = Arc::new(config);
     let printcfg = srversstr.replace("\n", " ");
     let ts = chrono::DateTime::<Utc>::from(SystemTime::now()).to_rfc3339_opts(SecondsFormat::Millis, true);
 
-    println!("{ts} <-> kiagateway >>> service starting: HTTP (host header inspection) on port 80, HTTPS (passthrough inspection) on port 443");
+    println!("{ts} <-> kiagateway >>> service starting: HTTP (Host header inspection) on port 80, HTTPS (SNI inspection) on port 443");
     println!("{ts} <-> kiagateway >>> service config loaded: {}", printcfg);
 
     let http = TcpListener::bind("0.0.0.0:80").await?;
