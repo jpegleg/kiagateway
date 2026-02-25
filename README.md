@@ -65,7 +65,7 @@ Here is an example of pulling the image from docker hub and running via Podman o
 
 ```
 podman pull docker.io/carefuldata/kiagateway:latest
-podman run -d -it --network=host carefuldata/kiagateway -v /opt/kiagateway_live/servers.toml:/servers.toml
+podman run -d -it --network=host -v /opt/kiagateway_live/servers.toml:/servers.toml carefuldata/kiagateway 
 
 ```
 
