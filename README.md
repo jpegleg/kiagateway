@@ -170,7 +170,7 @@ The following are _not_ features of kiagateway:
 
 ## So, what about HA of kiagateway itself?
 
-Kiagateway collapses ingress traffic, but in order for kiagateway itself to be highly available, we need a second kiagateway instance, ideally on separate physical hardware.
+In order for kiagateway itself to be highly available, we need a second kiagateway instance, ideally on separate physical hardware.
 
 The cheap and easy way is to have two different computers running kiagateway (on separate hardware) and have DNS records for both, however that can still lead to outages.
 A better solution is to use [GSLB](https://www.ibm.com/think/topics/global-server-load-balancing), and/or something like [CARP](https://www.openbsd.org/faq/pf/carp.html),
