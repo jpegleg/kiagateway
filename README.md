@@ -26,27 +26,31 @@ Example `servers.toml` configuration file:
 ```
 _Note how a domain name can be used instead of an IP, but a port is still required._
 
+A custom config name or path can be supplied as an argument to the process: `kiagateway myconfig.toml`.
+
 Then those IPs and ports would have (kiaproxy or whatever HAProxy) listeners that provide failover for the applications:
 
 ```
 export LISTENER=8002
 export SERVERS=192.168.1.112:3000,192.168.1.113:3000
 ```
-_kiaproxy exports environment variables for the backends while kiagateway has a TOML config_
+_kiaproxy exports environment variables for the backends while kiagateway has a TOML config file, default name is servers.toml_
 
 Kiagateway routes domains to (load balancers or proxies such as kiaproxy) which handle failover of applications.
 
 The architecture of kiagateway and kiaproxy can be used to support effective and high performance distributed systems networking, without the need
-for anything fancy. They are simple, light on system resource use, few dependencies, low cost, easy to understand, easy to build with, reliable, fast, and secure!
+for anything fancy. They are simple, light on system resource use, few dependencies, low cost, easy to understand configuration, easy to build with, reliable, fast, and more secure
+than most load balancer products.
 
 ## Why use kiagateway
-
 
 If we have a server but we need to host multiple websites, kiagateway is made for that.
 
 If we hae a giant enterprise with many domains and need in-cluster microservice routing by domain, kiagateway is made for that.
 
 If we want to create a WAN layer to send domain traffic to different load balancers, kiagateway is made for that.
+
+If we want to protect a vulnerable load balancer from TCP poisoning, kiagateway is made for that.
 
 There is a high degree of utility in kiagateway, as it can be used in so many places due to it's compact size and performance: on the WAN, on the LAN, on a firewall, on a load balancer, in a sidecare container, and more.
     
@@ -151,6 +155,18 @@ Of course in Kubernetes you could just use Kubernetes Gateway or Ingress, and in
 Most uses of kiagateway are for providing control over the domain routing, such as to avoid relying on Kubernetes or Traefik for the same functionality.
 
 Kiagateway especially shines in resource constrained environments, but can handle heavy traffic better than most services.
+
+## Non-features
+
+Kiagateway is very simple and purpose built, so feature expansions are not likely.
+
+The following are _not_ features of kiagateway:
+
+- UDP
+- having more than one backend (use kiaproxy or another load balancer as the backend)
+- TLS termination
+- wasm32-unknown-unknown compile target
+
 
 ## So, what about HA of kiagateway itself?
 
