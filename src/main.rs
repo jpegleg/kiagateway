@@ -338,9 +338,7 @@ fn extract_host(headers: &[u8]) -> Option<String> {
             }
             let val = line[5..].trim();
             found = parse_host_value(val);
-            if found.is_none() {
-                return None;
-            }
+            found.as_ref()?;
         }
     }
     found
@@ -375,7 +373,7 @@ fn extract_sni_from_clienthello_handshake(handshake_msg: &[u8]) -> Option<String
     let mut ex = Cur::new(exts);
 
     while ex.rem() >= 4 {
-        let ext_type = ex.u16()? as u16;
+        let ext_type = ex.u16()?;
         let ext_len = ex.u16()? as usize;
         if ex.rem() < ext_len { return None; }
         let ext_data = ex.take(ext_len)?;
