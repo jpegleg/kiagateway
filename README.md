@@ -18,11 +18,20 @@ The backends may likely be load balancer virtual IPs. Also see [kiaproxy](https:
 Example `servers.toml` configuration file:
 
 ```
-[backends]
+[https_backends]
 "example.com" = "127.0.0.1:8001"
 "example.org" = "127.0.0.1:8002"
+"www.example.com" = "127.0.0.1:8001"
+"www.example.org" = "127.0.0.1:8002"
 "something.example.localnet" = "192.168.1.19:1414"
 "other.things.stuff.localdomain" = "something.localdomain:443"
+[http_backends]
+"example.com" = "127.0.0.1:8080"
+"example.org" = "127.0.0.1:8081"
+"www.example.com" = "127.0.0.1:8080"
+"www.example.org" = "127.0.0.1:8081"
+"something.example.localnet" = "192.168.1.19:2424"
+"other.things.stuff.localdomain" = "something.localdomain:80"
 ```
 _Note how a domain name can be used instead of an IP, but a port is still required._
 
@@ -97,9 +106,16 @@ metadata:
     app.kubernetes.io/version: 0.0.1
 data:
   servers.toml: |
-[backends]
+[http_backends]
 "example.com" = "127.0.0.1:8001"
 "example.org" = "127.0.0.1:8002"
+"www.example.com" = "127.0.0.1:8001"
+"www.example.org" = "127.0.0.1:8002"a
+[https_backends]
+"example.com" = "127.0.0.1:8011"
+"example.org" = "127.0.0.1:8012"
+"www.example.com" = "127.0.0.1:8011"
+"www.example.org" = "127.0.0.1:8012"
 ...
 ---
 apiVersion: apps/v1
