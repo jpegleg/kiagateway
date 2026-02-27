@@ -35,6 +35,8 @@ Example `servers.toml` configuration file:
 ```
 _Note how a domain name can be used instead of an IP, but a port is still required._
 
+_Note the v0.1.0 version config used only "backends", all releases after have them split between "http_backends" and "https_backends"._
+
 A custom config name or path can be supplied as an argument to the process: `kiagateway myconfig.toml`.
 
 Then those IPs and ports would have (kiaproxy or whatever HAProxy) listeners that provide failover for the applications:
@@ -110,7 +112,7 @@ data:
 "example.com" = "127.0.0.1:8001"
 "example.org" = "127.0.0.1:8002"
 "www.example.com" = "127.0.0.1:8001"
-"www.example.org" = "127.0.0.1:8002"a
+"www.example.org" = "127.0.0.1:8002"
 [https_backends]
 "example.com" = "127.0.0.1:8011"
 "example.org" = "127.0.0.1:8012"
