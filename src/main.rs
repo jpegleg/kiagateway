@@ -112,7 +112,7 @@ async fn handle_http(
         }
     };
 
-    let backend_addr = match config.backends.get(&host) {
+    let backend_addr = match config.http_backends.get(&host) {
         Some(addr) => addr.clone(),
         None => {
             let _ = write_http_error(client, b"HTTP/1.1 502 Bad Gateway\r\nConnection: close\r\n\r\n").await;
@@ -178,7 +178,7 @@ async fn handle_https(
         return Ok(());
     };
 
-    let backend_addr = match config.backends.get(&sni) {
+    let backend_addr = match config.https_backends.get(&sni) {
         Some(addr) => addr.clone(),
         None => return Ok(()),
     };
@@ -200,7 +200,8 @@ async fn handle_https(
 
 #[derive(Debug, Deserialize)]
 struct Config {
-    backends: HashMap<String, String>,
+    https_backends: HashMap<String, String>,
+    http_backends: HashMap<String, String>,
 }
 
 #[tokio::main]
