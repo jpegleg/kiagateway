@@ -203,6 +203,6 @@ Kiagateway might be used _in front_ of Kubernetes clusters, but can be run withi
 
 ## Project promises
 
-This project will never use AI-slop. All code is reviewed, tested, and implemented by a human expert. This repository is carefully managed and protected.
+This project will never use AI-slop. All code is reviewed, tested, and implemented by a human expert. This repository and the crates.io repository are carefully managed and protected.
 
 This project will be maintained as best as is reasonable.
